@@ -2,15 +2,17 @@
 The Urdu Date Time Library is a PHP library designed to handle various date and time operations with Urdu localization. It includes functionalities for converting Gregorian dates to Hijri, calculating date differences, formatting times, and providing relative times, all in Urdu.
 
 ## Installation
-Step 1: Clone the Repository
+### Method 1
+Use composer to install the `urdu-date-time-library` package
+```bash
+composer require callmeahmedr/urdu-date-time-library
+```
+### Method 2
+Clone the Repository
 ```bash
 git clone https://github.com/callmeahmedr/urdu-date-time-library.git
 ```
-Step 2: Navigate to the Project Directory
-```bash
-cd urdu-date-time-library
-```
-Step 2: Install Dependencies
+Install Dependencies
 ```bash
 composer install
 ```
