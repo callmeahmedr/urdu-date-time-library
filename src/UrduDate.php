@@ -16,7 +16,7 @@ class UrduDate {
         $this->hijriConverter = new HijriConverter();
         $this->islamicEvents = new IslamicEvents();
         $this->dateDifferenceCalculator = new DateDifferenceCalculator();
-        $this->translations = require __DIR__ . '/Translations/ur.php';
+        $this->translations = require __DIR__ . '/Helpers/Translations/ur.php';
     }
 
     // Hijri Conversion Function
@@ -35,7 +35,8 @@ class UrduDate {
     // Date Difference in Urdu
 
     public function getDateDifference( string $date1, string $date2 ): string {
-        return $this->convertToUrdu( $this->dateDifferenceCalculator->getDateDifference( $date1, $date2 ) ) . ' دن';
+        $difference = $this->dateDifferenceCalculator->getDateDifference( $date1, $date2 );
+        return $this->convertToUrdu( $difference ) . ' دن';
     }
 
     // Time Formatting in Urdu
@@ -83,12 +84,11 @@ class UrduDate {
         return strtr( $number, $this->translations['numerals'] );
     }
 
-    // Helper Function to Format Date with Labels ( Improved with Checks )
+    // Helper Function to Format Date with Labels
 
     private function formatDateWithLabels( string $date, string $dayLabel, string $monthLabel, string $yearLabel ): string {
         $parts = explode( '-', $date );
 
-        // Ensure we have all parts ( day, month, year )
         if ( count( $parts ) === 3 ) {
             $urduDay = $this->convertToUrdu( $parts[0] ?? '' );
             $urduMonth = $this->translations['months'][$parts[1]] ?? '';
@@ -97,7 +97,6 @@ class UrduDate {
             return "$dayLabel: $urduDay، $monthLabel: $urduMonth، $yearLabel: $urduYear";
         }
 
-        // Return an empty or fallback string if the date is not in the expected format
         return 'Invalid Date Format';
     }
 }
