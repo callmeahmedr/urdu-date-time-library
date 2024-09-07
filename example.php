@@ -1,21 +1,25 @@
 <?php
 
-// Load all dependencies ( including UrduDateLibrary ) via Composer's autoloader
 require 'vendor/autoload.php';
 
 use UrduDateLibrary\UrduDate;
 
-// Create an instance of UrduDate class
-$date = new UrduDate();
+$urduDate = new UrduDate();
 
-// Example 1: Format a Gregorian date to Urdu
-echo "Formatted Date: " . $date->formatDate('2024-12-31') . PHP_EOL; // Output: ۳۱ دسمبر ۲۰۲۴
+// 1. Hijri Conversion (Gregorian to Hijri)
+echo "Hijri Conversion for 2024-09-07: " . $urduDate->convertToHijri('2024-09-07') . PHP_EOL;
 
-// Example 2: Get the day name in Urdu
-echo "Day Name: " . $date->getDayName('2024-12-31') . PHP_EOL; // Output: منگل
+// 2. Get Islamic Event by Hijri Date
+echo "Islamic Event for Hijri Date 12-10 (Eid al-Adha): " . $urduDate->getIslamicEvent('12-10') . PHP_EOL;
 
-// Example 3: Convert to Hijri date
-echo "Hijri Date: " . $date->convertToHijri('2024-12-31') . PHP_EOL; // Output: ۸ رجب ۱۴۴۶
+// 3. Date Difference in Urdu (Between Two Gregorian Dates)
+echo "Date Difference between 2024-09-01 and 2024-09-07: " . $urduDate->getDateDifference('2024-09-01', '2024-09-07') . PHP_EOL;
 
-// Example 4: Display relative time in Urdu
-echo "Relative Time (Yesterday): " . $date->relativeTime('2024-12-30' ) . PHP_EOL; // Output: کل
+// 4. Time Formatting in Urdu (for a given time)
+echo "Formatted Time in Urdu for 14:30: " . $urduDate->formatTimeInUrdu('14:30') . PHP_EOL;
+
+// 5. Relative Time in Urdu (based on how far the date is from today)
+echo "Relative Time for 2024-09-06: " . $urduDate->relativeTime('2024-09-06') . PHP_EOL;
+
+// 6. Get Urdu Month and Day Name for Gregorian Date
+echo "Urdu Month/Day Name for Gregorian Date 2024-09-07: " . $urduDate->getUrduMonthDayName('2024-09-07') . PHP_EOL;
