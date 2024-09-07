@@ -6,20 +6,26 @@ use UrduDateLibrary\UrduDate;
 
 $urduDate = new UrduDate();
 
-// 1. Hijri Conversion (Gregorian to Hijri) with Labels
-echo "Hijri Conversion for 2024-09-07: " . $urduDate->convertToHijri('2024-09-07') . "<br>";
+// Test Hijri Conversion
+$gregorianDate = '2024-09-07';
+echo "Hijri Conversion for $gregorianDate: " . $urduDate->convertToHijri($gregorianDate) . "\n";
 
-// 2. Get Islamic Event by Hijri Date
-echo "Islamic Event for Hijri Date 12-10 (Eid al-Adha): " . $urduDate->getIslamicEvent('12-10') . "<br>";
+// Test Islamic Event
+$hijriDate = '12-10'; // Example Hijri date format
+echo "Islamic Event for Hijri Date $hijriDate: " . $urduDate->getIslamicEvent($hijriDate) . "\n";
 
-// 3. Date Difference in Urdu (Between Two Gregorian Dates)
-echo "Date Difference between 2024-09-01 and 2024-09-07: " . $urduDate->getDateDifference('2024-09-01', '2024-09-07') . "<br>";
+// Test Date Difference
+$date1 = '2024-09-01';
+$date2 = '2024-09-07';
+echo "Date Difference between $date1 and $date2: " . $urduDate->getDateDifference($date1, $date2) . "\n";
 
-// 4. Time Formatting in Urdu (for a given time)
-echo "Formatted Time in Urdu for 14:30: " . $urduDate->formatTimeInUrdu('14:30') . "<br>";
+// Test Time Formatting
+$time = '14:30';
+echo "Formatted Time in Urdu for $time: " . $urduDate->formatTimeInUrdu($time) . "\n";
 
-// 5. Relative Time in Urdu (based on how far the date is from today)
-echo "Relative Time for 2024-09-06: " . $urduDate->relativeTime('2024-09-06') . "<br>";
+// Test Relative Time
+$pastDate = '2024-09-06';
+echo "Relative Time for $pastDate: " . $urduDate->relativeTime($pastDate) . "\n";
 
-// 6. Get Urdu Month and Day Name for Gregorian Date with Labels
-echo "Urdu Month/Day Name for Gregorian Date 2024-09-07: " . $urduDate->getUrduMonthDayName('2024-09-07') . "<br>";
+// Test Urdu Month/Day Name
+echo "Urdu Month/Day Name for Gregorian Date $gregorianDate: " . $urduDate->getUrduMonthDayName($gregorianDate) . "\n";
