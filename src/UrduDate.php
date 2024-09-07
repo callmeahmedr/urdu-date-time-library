@@ -16,7 +16,7 @@ class UrduDate {
         $this->hijriConverter = new HijriConverter();
         $this->islamicEvents = new IslamicEvents();
         $this->dateDifferenceCalculator = new DateDifferenceCalculator();
-        $this->translations = require __DIR__ . '/Helpers/Translations/ur.php';
+        $this->translations = require __DIR__ . '/Translations/ur.php';
     }
 
     // Hijri Conversion Function
