@@ -2,102 +2,82 @@
 
 namespace UrduDateLibrary;
 
+use UrduDateLibrary\Helpers\HijriConverter;
+use UrduDateLibrary\Helpers\IslamicEvents;
+use UrduDateLibrary\Helpers\DateDifferenceCalculator;
+
 class UrduDate {
-    protected $dateFormat = 'Y-m-d';
-    // Default date format
-    protected $timeFormat = 'H:i:s';
-    // Default time format
+    protected $hijriConverter;
+    protected $islamicEvents;
+    protected $dateDifferenceCalculator;
+    protected $translations;
 
-    /**
-    * Format a given date into Urdu with day, month, and year.
-    *
-    * @param string $date The date in Y-m-d format.
-    * @return string The formatted date in Urdu.
-    */
-
-    public function formatDate( string $date ): string {
-        $timestamp = strtotime( $date );
-        $day = $this->convertToUrdu( date( 'd', $timestamp ) );
-        $month = $this->getMonthName( date( 'm', $timestamp ) );
-        $year = $this->convertToUrdu( date( 'Y', $timestamp ) );
-
-        return "$day $month $year";
+    public function __construct() {
+        $this->hijriConverter = new HijriConverter();
+        $this->islamicEvents = new IslamicEvents();
+        $this->dateDifferenceCalculator = new DateDifferenceCalculator();
+        $this->translations = require __DIR__ . '/Helpers/Translations/ur.php';
     }
 
-    /**
-    * Get the Urdu name of a month by its number.
-    *
-    * @param string $monthNumber The month number ( 1-12 ).
-    * @return string The month name in Urdu.
-    */
+    // Hijri Conversion Function
 
-    public function getMonthName( string $monthNumber ): string {
-        $translations = require __DIR__ . '/Translations/ur.php';
-        return $translations['months'][$monthNumber] ?? '';
+    public function convertToHijri( string $gregorianDate ): string {
+        return $this->hijriConverter->gregorianToHijri( $gregorianDate );
     }
 
-    /**
-    * Get the Urdu name of a day for a given date.
-    *
-    * @param string $date The date in Y-m-d format.
-    * @return string The day name in Urdu.
-    */
+    // Get Islamic Event by Hijri Date
 
-    public function getDayName( string $date ): string {
-        $timestamp = strtotime( $date );
-        $dayOfWeek = date( 'N', $timestamp );
-        // 1 = Monday, 7 = Sunday
-        $translations = require __DIR__ . '/Translations/ur.php';
-
-        return $translations['days'][$dayOfWeek] ?? '';
+    public function getIslamicEvent( string $hijriDate ): ?string {
+        return $this->islamicEvents->getIslamicEvent( $hijriDate );
     }
 
-    /**
-    * Convert a given number to Urdu numerals.
-    *
-    * @param string $number The number to convert.
-    * @return string The number in Urdu numerals.
-    */
+    // Date Difference in Urdu
 
-    public function convertToUrdu( string $number ): string {
-        $urduNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-        return strtr( $number, array_combine( range( 0, 9 ), $urduNumbers ) );
+    public function getDateDifference( string $date1, string $date2 ): string {
+        return $this->dateDifferenceCalculator->getDateDifference( $date1, $date2 );
     }
 
-    /**
-    * Display relative time in Urdu ( e.g., "Today", "Yesterday" ).
-    *
-    * @param string $date The date to compare.
-    * @return string The relative time in Urdu.
-    */
+    // Time Formatting in Urdu
+
+    public function formatTimeInUrdu( string $time ): string {
+        $formattedTime = date( 'H:i', strtotime( $time ) );
+        return $this->convertToUrdu( $formattedTime );
+    }
+
+    // Relative Time in Urdu
 
     public function relativeTime( string $date ): string {
-        $timestamp = strtotime( $date );
-        $today = strtotime( date( 'Y-m-d' ) );
-        $difference = $today - $timestamp;
-        $translations = require __DIR__ . '/Translations/ur.php';
+        $now = time();
+        $dateTimestamp = strtotime( $date );
+        $diff = $now - $dateTimestamp;
 
-        if ( $difference == 0 ) {
-            return $translations['relative']['today'];
-        } elseif ( $difference == 86400 ) {
-            return $translations['relative']['yesterday'];
-        } elseif ( $difference == -86400 ) {
-            return $translations['relative']['tomorrow'];
+        if ( $diff < 60 * 60 ) {
+            return $this->translations['relative']['today'];
+        } elseif ( $diff < 60 * 60 * 24 ) {
+            return $this->translations['relative']['yesterday'];
+        } elseif ( $diff < 60 * 60 * 24 * 7 ) {
+            return $this->convertToUrdu( floor( $diff / ( 60 * 60 * 24 ) ) ) . ' دن پہلے';
+        } else {
+            return $this->convertToUrdu( floor( $diff / ( 60 * 60 * 24 * 7 ) ) ) . ' ہفتہ پہلے';
         }
-
-        return date( $this->dateFormat, $timestamp );
-        // Default: formatted date
     }
 
-    /**
-    * Convert a Gregorian date to a Hijri date and return it in Urdu.
-    *
-    * @param string $date The Gregorian date in Y-m-d format.
-    * @return string The Hijri date in Urdu.
-    */
+    // Gregorian to Urdu Month/Day Name
 
-    public function convertToHijri( string $date ): string {
-        $hijriConverter = new Helpers\HijriConverter();
-        return $hijriConverter->gregorianToHijri( $date );
+    public function getUrduMonthDayName( string $gregorianDate ): string {
+        $day = date( 'd', strtotime( $gregorianDate ) );
+        $month = date( 'm', strtotime( $gregorianDate ) );
+        $year = date( 'Y', strtotime( $gregorianDate ) );
+
+        $urduMonth = $this->translations['months'][$month];
+        $urduDay = $this->convertToUrdu( $day );
+
+        return $urduDay . ' ' . $urduMonth . ' ' . $this->convertToUrdu( $year );
+    }
+
+    // Helper Function to Convert Numbers to Urdu
+
+    public function convertToUrdu( string $number ): string {
+        return strtr( $number, $this->translations['numerals'] );
     }
 }
