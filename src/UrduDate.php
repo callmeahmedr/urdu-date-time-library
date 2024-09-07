@@ -22,7 +22,8 @@ class UrduDate {
     // Hijri Conversion Function
 
     public function convertToHijri( string $gregorianDate ): string {
-        return $this->hijriConverter->gregorianToHijri( $gregorianDate );
+        $hijriDate = $this->hijriConverter->gregorianToHijri( $gregorianDate );
+        return $this->formatDateWithLabels( $hijriDate, 'روز', 'مہینہ', 'سال' );
     }
 
     // Get Islamic Event by Hijri Date
@@ -34,7 +35,7 @@ class UrduDate {
     // Date Difference in Urdu
 
     public function getDateDifference( string $date1, string $date2 ): string {
-        return $this->dateDifferenceCalculator->getDateDifference( $date1, $date2 );
+        return $this->convertToUrdu( $this->dateDifferenceCalculator->getDateDifference( $date1, $date2 ) ) . ' دن';
     }
 
     // Time Formatting in Urdu
@@ -58,11 +59,11 @@ class UrduDate {
         } elseif ( $diff < 60 * 60 * 24 * 7 ) {
             return $this->convertToUrdu( floor( $diff / ( 60 * 60 * 24 ) ) ) . ' دن پہلے';
         } else {
-            return $this->convertToUrdu( floor( $diff / ( 60 * 60 * 24 * 7 ) ) ) . ' ہفتہ پہلے';
+            return $this->convertToUrdu( floor( $diff / ( 60 * 60 * 24 * 7 ) ) ) . ' ہفتے پہلے';
         }
     }
 
-    // Gregorian to Urdu Month/Day Name
+    // Gregorian to Urdu Month/Day Name with labels
 
     public function getUrduMonthDayName( string $gregorianDate ): string {
         $day = date( 'd', strtotime( $gregorianDate ) );
@@ -71,13 +72,25 @@ class UrduDate {
 
         $urduMonth = $this->translations['months'][$month];
         $urduDay = $this->convertToUrdu( $day );
+        $urduYear = $this->convertToUrdu( $year );
 
-        return $urduDay . ' ' . $urduMonth . ' ' . $this->convertToUrdu( $year );
+        return "روز: $urduDay، مہینہ: $urduMonth، سال: $urduYear";
     }
 
     // Helper Function to Convert Numbers to Urdu
 
     public function convertToUrdu( string $number ): string {
         return strtr( $number, $this->translations['numerals'] );
+    }
+
+    // Helper Function to Format Date with Labels ( Optional )
+
+    private function formatDateWithLabels( string $date, string $dayLabel, string $monthLabel, string $yearLabel ): string {
+        $parts = explode( '-', $date );
+        $urduDay = $this->convertToUrdu( $parts[0] );
+        $urduMonth = $this->translations['months'][$parts[1]];
+        $urduYear = $this->convertToUrdu( $parts[2] );
+
+        return "$dayLabel: $urduDay، $monthLabel: $urduMonth، $yearLabel: $urduYear";
     }
 }
