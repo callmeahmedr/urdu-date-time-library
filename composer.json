@@ -1,5 +1,5 @@
 {
-    "name": "urdu-date-time-library",
+    "name": "callmeahmedr/urdu-date-time-library",
     "description": "A PHP library for handling dates and times in Urdu, including Hijri conversion.",
     "keywords": ["urdu", "date", "time", "hijri", "php"],
     "homepage": "https://github.com/callmeahmedr/urdu-date-time-library/",
