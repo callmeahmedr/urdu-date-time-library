@@ -6,7 +6,7 @@ use UrduDateLibrary\UrduDate;
 
 $urduDate = new UrduDate();
 
-// 1. Hijri Conversion (Gregorian to Hijri)
+// 1. Hijri Conversion (Gregorian to Hijri) with Labels
 echo "Hijri Conversion for 2024-09-07: " . $urduDate->convertToHijri('2024-09-07') . "<br>";
 
 // 2. Get Islamic Event by Hijri Date
@@ -21,5 +21,5 @@ echo "Formatted Time in Urdu for 14:30: " . $urduDate->formatTimeInUrdu('14:30')
 // 5. Relative Time in Urdu (based on how far the date is from today)
 echo "Relative Time for 2024-09-06: " . $urduDate->relativeTime('2024-09-06') . "<br>";
 
-// 6. Get Urdu Month and Day Name for Gregorian Date
+// 6. Get Urdu Month and Day Name for Gregorian Date with Labels
 echo "Urdu Month/Day Name for Gregorian Date 2024-09-07: " . $urduDate->getUrduMonthDayName('2024-09-07') . "<br>";
