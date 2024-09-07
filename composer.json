@@ -1,1 +1,21 @@
-
+{
+    "name": "callmeahmedr/urdu-date-time-library",
+    "description": "A PHP library for handling dates and times in Urdu, including Hijri conversion.",
+    "keywords": ["urdu", "date", "time", "hijri", "php"],
+    "homepage": "https://github.com/callmeahmedr/urdu-date-time-library/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Muhammad Ahmed",
+            "email": "ahmed@etarbiyat.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "UrduDateLibrary\\": "src/"
+        }
+    }
+}
