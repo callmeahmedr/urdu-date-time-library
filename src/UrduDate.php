@@ -36,7 +36,8 @@ class UrduDate {
 
     public function getDateDifference( string $date1, string $date2 ): string {
         $difference = $this->dateDifferenceCalculator->getDateDifference( $date1, $date2 );
-        return $this->convertToUrdu( $difference ) . ' دن';
+        $differenceInUrdu = $this->convertToUrdu( $difference );
+        return $differenceInUrdu . ' دن';
     }
 
     // Time Formatting in Urdu
@@ -67,11 +68,13 @@ class UrduDate {
     // Gregorian to Urdu Month/Day Name with labels
 
     public function getUrduMonthDayName( string $gregorianDate ): string {
-        $day = date( 'd', strtotime( $gregorianDate ) );
-        $month = date( 'm', strtotime( $gregorianDate ) );
+        $day = date( 'j', strtotime( $gregorianDate ) );
+        // Day of the month without leading zero
+        $month = date( 'n', strtotime( $gregorianDate ) );
+        // Numeric representation of a month without leading zero
         $year = date( 'Y', strtotime( $gregorianDate ) );
 
-        $urduMonth = $this->translations['months'][$month] ?? '';
+        $urduMonth = $this->translations['months'][$month] ?? 'نامعلوم';
         $urduDay = $this->convertToUrdu( $day );
         $urduYear = $this->convertToUrdu( $year );
 
@@ -90,11 +93,11 @@ class UrduDate {
         $parts = explode( '-', $date );
 
         if ( count( $parts ) === 3 ) {
-            $urduDay = $this->convertToUrdu( $parts[0] ?? '' );
-            $urduMonth = $this->translations['months'][$parts[1]] ?? '';
-            $urduYear = $this->convertToUrdu( $parts[2] ?? '' );
+            $day = $this->convertToUrdu( $parts[0] ?? '' );
+            $month = $this->translations['months'][$parts[1]] ?? 'نامعلوم';
+            $year = $this->convertToUrdu( $parts[2] ?? '' );
 
-            return "$dayLabel: $urduDay، $monthLabel: $urduMonth، $yearLabel: $urduYear";
+            return "$dayLabel: $day، $monthLabel: $month، $yearLabel: $year";
         }
 
         return 'Invalid Date Format';
