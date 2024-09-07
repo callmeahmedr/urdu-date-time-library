@@ -70,7 +70,7 @@ class UrduDate {
         $month = date( 'm', strtotime( $gregorianDate ) );
         $year = date( 'Y', strtotime( $gregorianDate ) );
 
-        $urduMonth = $this->translations['months'][$month];
+        $urduMonth = $this->translations['months'][$month] ?? '';
         $urduDay = $this->convertToUrdu( $day );
         $urduYear = $this->convertToUrdu( $year );
 
