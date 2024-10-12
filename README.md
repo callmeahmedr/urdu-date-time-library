@@ -84,4 +84,4 @@ Contributions are welcome! Please fork the repository and submit a pull request 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/callmeahmedr/urdu-date-time-library/blob/main/LICENSE) file for details.
 
-Happy Coding
+Happy Coding ❤️
